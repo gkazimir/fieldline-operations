@@ -1,0 +1,7 @@
+{
+  "search.exclude": {
+    "**/.angular": true,
+    "**/.nx": true,
+    "**/dist": true
+  }
+}

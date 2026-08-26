@@ -1,0 +1,7 @@
+echo "[pre-push] Running unit tests..."
+npm run test:unit || {
+  echo "[pre-push] ERROR: Unit tests failed. Push aborted."
+  exit 1
+}
+
+echo "[pre-push] Unit tests passed. Proceeding with push."

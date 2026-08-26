@@ -1,0 +1,13 @@
+echo "[pre-commit] Running ESLint on staged files..."
+npx lint-staged || {
+	echo "[pre-commit] ERROR: ESLint check failed on staged files. Commit aborted."
+	exit 1
+}
+
+echo "[pre-commit] Running Prettier check..."
+npm run format:check || {
+	echo "[pre-commit] ERROR: Prettier check failed (formatting warnings/errors found). Commit aborted."
+	exit 1
+}
+
+echo "[pre-commit] Checks passed. Proceeding with commit."
