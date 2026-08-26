@@ -1,4 +1,4 @@
-import { JobStatus } from '../services/ops-data.service';
+import { JobStatus } from '../models/job.model';
 
 export function formatJobStatus(status: JobStatus): string {
   switch (status) {

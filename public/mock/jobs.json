@@ -1,0 +1,90 @@
+[
+  {
+    "id": "job-1001",
+    "customerId": "cust-01",
+    "customer": "Riverside Cafe",
+    "serviceType": "HVAC maintenance",
+    "neighborhood": "Old Town",
+    "scheduledAt": "2026-08-27T09:00:00Z",
+    "status": "assigned",
+    "technicianId": "t-01",
+    "revenue": 240
+  },
+  {
+    "id": "job-1002",
+    "customerId": "cust-02",
+    "customer": "Bright Dental",
+    "serviceType": "Electrical diagnostics",
+    "neighborhood": "Market District",
+    "scheduledAt": "2026-08-27T11:30:00Z",
+    "status": "in-progress",
+    "technicianId": "t-02",
+    "revenue": 380
+  },
+  {
+    "id": "job-1003",
+    "customerId": "cust-03",
+    "customer": "Northside Apartments",
+    "serviceType": "Appliance repair",
+    "neighborhood": "Northside",
+    "scheduledAt": "2026-08-27T13:15:00Z",
+    "status": "new",
+    "technicianId": null,
+    "revenue": 175
+  },
+  {
+    "id": "job-1004",
+    "customerId": "cust-04",
+    "customer": "WellFit Gym",
+    "serviceType": "Safety inspection",
+    "neighborhood": "Harbor",
+    "scheduledAt": "2026-08-27T15:30:00Z",
+    "status": "issue",
+    "technicianId": "t-04",
+    "revenue": 460
+  },
+  {
+    "id": "job-1005",
+    "customerId": "cust-05",
+    "customer": "Nora Patel",
+    "serviceType": "General maintenance",
+    "neighborhood": "West End",
+    "scheduledAt": "2026-08-27T16:45:00Z",
+    "status": "done",
+    "technicianId": "t-03",
+    "revenue": 210
+  },
+  {
+    "id": "job-1006",
+    "customerId": "cust-06",
+    "customer": "Harbor Logistics",
+    "serviceType": "Safety inspection",
+    "neighborhood": "Harbor",
+    "scheduledAt": "2026-08-26T10:00:00Z",
+    "status": "done",
+    "technicianId": "t-04",
+    "revenue": 320
+  },
+  {
+    "id": "job-1007",
+    "customerId": "cust-02",
+    "customer": "Bright Dental",
+    "serviceType": "Electrical follow-up",
+    "neighborhood": "Market District",
+    "scheduledAt": "2026-08-28T09:30:00Z",
+    "status": "new",
+    "technicianId": null,
+    "revenue": 150
+  },
+  {
+    "id": "job-1008",
+    "customerId": "cust-05",
+    "customer": "Nora Patel",
+    "serviceType": "General maintenance",
+    "neighborhood": "West End",
+    "scheduledAt": "2026-08-25T14:00:00Z",
+    "status": "done",
+    "technicianId": "t-03",
+    "revenue": 190
+  }
+]

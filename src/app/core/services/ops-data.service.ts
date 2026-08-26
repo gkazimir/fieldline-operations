@@ -1,98 +1,31 @@
-import { computed, Injectable, signal } from '@angular/core';
+import { computed, inject, Injectable, signal } from '@angular/core';
+import { DashboardMetric, OperationsSnapshot } from '../models/dashboard-metric.model';
+import { JobStatus, ServiceJob } from '../models/job.model';
+import { Technician } from '../models/technician.model';
+import { ApiService } from './api.service';
 
-export type JobStatus = 'new' | 'assigned' | 'in-progress' | 'done' | 'issue';
+export type { JobStatus, ServiceJob, Technician, DashboardMetric, OperationsSnapshot };
 
-export interface Technician {
-  readonly id: string;
-  readonly name: string;
-  readonly skill: string;
-}
-
-export interface ServiceJob {
-  readonly id: string;
-  readonly customer: string;
-  readonly serviceType: string;
-  readonly neighborhood: string;
-  readonly scheduledAt: string;
-  readonly status: JobStatus;
-  readonly technicianId: string | null;
-  readonly revenue: number;
-}
-
-export interface DashboardMetric {
-  readonly label: string;
-  readonly value: number;
-  readonly suffix?: string;
-}
-
-export interface OperationsSnapshot {
-  readonly activeJobs: readonly ServiceJob[];
-  readonly technicians: readonly Technician[];
-  readonly metrics: readonly DashboardMetric[];
-  readonly backlog: number;
-}
-
+/**
+ * Holds the operations dataset (jobs + technicians) and derived dashboard
+ * metrics. Data is loaded once via `ApiService` and kept in signals so every
+ * page reacts to assignments and status changes made elsewhere in the app.
+ */
 @Injectable({ providedIn: 'root' })
 export class OpsDataService {
-  private readonly techniciansState = signal<readonly Technician[]>([
-    { id: 't-01', name: 'Maya Thompson', skill: 'HVAC' },
-    { id: 't-02', name: 'Noah Alvarez', skill: 'Electrical' },
-    { id: 't-03', name: 'Priya Desai', skill: 'Appliance repair' },
-    { id: 't-04', name: 'Ethan Brooks', skill: 'General maintenance' },
-  ]);
+  private readonly api = inject(ApiService);
 
-  private readonly jobsState = signal<readonly ServiceJob[]>([
-    {
-      id: 'job-1001',
-      customer: 'Riverside Cafe',
-      serviceType: 'HVAC maintenance',
-      neighborhood: 'Old Town',
-      scheduledAt: '2026-08-27T09:00:00Z',
-      status: 'assigned',
-      technicianId: 't-01',
-      revenue: 240,
-    },
-    {
-      id: 'job-1002',
-      customer: 'Bright Dental',
-      serviceType: 'Electrical diagnostics',
-      neighborhood: 'Market District',
-      scheduledAt: '2026-08-27T11:30:00Z',
-      status: 'in-progress',
-      technicianId: 't-02',
-      revenue: 380,
-    },
-    {
-      id: 'job-1003',
-      customer: 'Northside Apartments',
-      serviceType: 'Appliance repair',
-      neighborhood: 'Northside',
-      scheduledAt: '2026-08-27T13:15:00Z',
-      status: 'new',
-      technicianId: null,
-      revenue: 175,
-    },
-    {
-      id: 'job-1004',
-      customer: 'WellFit Gym',
-      serviceType: 'Safety inspection',
-      neighborhood: 'Harbor',
-      scheduledAt: '2026-08-27T15:30:00Z',
-      status: 'issue',
-      technicianId: 't-04',
-      revenue: 460,
-    },
-    {
-      id: 'job-1005',
-      customer: 'Nora Patel',
-      serviceType: 'General maintenance',
-      neighborhood: 'West End',
-      scheduledAt: '2026-08-27T16:45:00Z',
-      status: 'done',
-      technicianId: 't-03',
-      revenue: 210,
-    },
-  ]);
+  private readonly techniciansState = signal<readonly Technician[]>([]);
+  private readonly jobsState = signal<readonly ServiceJob[]>([]);
+
+  constructor() {
+    this.api
+      .getCollection<Technician>('mock/technicians.json')
+      .subscribe((technicians) => this.techniciansState.set(technicians));
+    this.api
+      .getCollection<ServiceJob>('mock/jobs.json')
+      .subscribe((jobs) => this.jobsState.set(jobs));
+  }
 
   readonly technicians = computed(() => this.techniciansState());
   readonly jobs = computed(() => this.jobsState());
@@ -144,6 +77,7 @@ export class OpsDataService {
   }
 
   addQuickJob(input: {
+    customerId: string;
     customer: string;
     serviceType: string;
     neighborhood: string;
@@ -153,6 +87,7 @@ export class OpsDataService {
     this.jobsState.update((jobs) => [
       {
         id,
+        customerId: input.customerId,
         customer: input.customer,
         serviceType: input.serviceType,
         neighborhood: input.neighborhood,

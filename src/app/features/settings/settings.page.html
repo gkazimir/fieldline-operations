@@ -5,53 +5,6 @@
   </header>
 
   <form class="settings-form" aria-label="Application settings form">
-    <section class="settings-section" aria-labelledby="primeng-examples-title">
-      <h3 id="primeng-examples-title">PrimeNG examples</h3>
-      <p class="section-intro">
-        This section intentionally demonstrates <strong>p-select</strong> and
-        <strong>p-multiSelect</strong> with two-way form binding.
-      </p>
-
-      <div class="examples-grid">
-        <article class="example-item" aria-label="PrimeNG Select example">
-          <h4>Example 1: p-select</h4>
-          <p>Select one persistence mode.</p>
-
-          <label for="persistence-select">Persistence mode</label>
-          <p-select
-            inputId="persistence-select"
-            name="examplePersistenceMode"
-            [options]="persistenceOptions"
-            optionLabel="label"
-            optionValue="value"
-            [ngModel]="selectedPersistence()"
-            (ngModelChange)="updatePersistence($event)"
-            placeholder="Select retention mode"
-            appendTo="body"
-          />
-        </article>
-
-        <article class="example-item" aria-label="PrimeNG MultiSelect example">
-          <h4>Example 2: p-multiSelect</h4>
-          <p>Select one or more enabled modules.</p>
-
-          <label for="focus-multiselect">Enabled modules</label>
-          <p-multiSelect
-            inputId="focus-multiselect"
-            name="exampleEnabledModules"
-            [options]="focusAreaOptions"
-            optionLabel="label"
-            optionValue="value"
-            [ngModel]="selectedFocusAreas()"
-            (ngModelChange)="updateFocusAreas($event)"
-            placeholder="Select one or more"
-            display="chip"
-            appendTo="body"
-          />
-        </article>
-      </div>
-    </section>
-
     <section class="settings-section" aria-labelledby="general-title">
       <h3 id="general-title">General</h3>
 

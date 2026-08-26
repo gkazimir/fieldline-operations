@@ -10,26 +10,33 @@
     }
   </section>
 
-  <section class="trend-block" aria-label="Weekly trend visualization placeholder">
-    <h3>Trend overview</h3>
+  <section class="trend-block" aria-label="Job status breakdown">
+    <h3>Job status breakdown</h3>
     <div class="trend-rows">
-      <div>
-        <span class="legend completed"></span>
-        <p>Completed jobs trend</p>
-      </div>
-      <div>
-        <span class="legend risk"></span>
-        <p>SLA risk trend</p>
-      </div>
-      <div>
-        <span class="legend incidents"></span>
-        <p>Incident trend</p>
-      </div>
+      @for (row of trendRows(); track row.label) {
+        <div>
+          <div class="trend-label">
+            <span class="legend" [class]="row.legendClass"></span>
+            <p>{{ row.label }}</p>
+          </div>
+          <div class="trend-bar" aria-hidden="true">
+            <div
+              class="trend-bar-fill"
+              [class]="row.legendClass"
+              [style.width.%]="row.percentage"
+            ></div>
+          </div>
+          <span class="trend-count">{{ row.count }}</span>
+        </div>
+      }
     </div>
   </section>
 
   <article class="placeholder" aria-label="Reports roadmap">
     <h3>Next implementation step</h3>
-    <p>Add real chart data, labeled units, and export-ready weekly summary.</p>
+    <p>
+      Add historical week-over-week comparisons and an export-ready summary once real report data is
+      available.
+    </p>
   </article>
 </section>

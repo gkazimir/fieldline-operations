@@ -1,0 +1,50 @@
+[
+  {
+    "id": "cust-01",
+    "name": "Riverside Cafe",
+    "neighborhood": "Old Town",
+    "tier": "priority",
+    "contactEmail": "manager@riversidecafe.example",
+    "contactPhone": "+1-555-0101"
+  },
+  {
+    "id": "cust-02",
+    "name": "Bright Dental",
+    "neighborhood": "Market District",
+    "tier": "standard",
+    "contactEmail": "office@brightdental.example",
+    "contactPhone": "+1-555-0102"
+  },
+  {
+    "id": "cust-03",
+    "name": "Northside Apartments",
+    "neighborhood": "Northside",
+    "tier": "standard",
+    "contactEmail": "management@northsideapts.example",
+    "contactPhone": "+1-555-0103"
+  },
+  {
+    "id": "cust-04",
+    "name": "WellFit Gym",
+    "neighborhood": "Harbor",
+    "tier": "vip",
+    "contactEmail": "facilities@wellfitgym.example",
+    "contactPhone": "+1-555-0104"
+  },
+  {
+    "id": "cust-05",
+    "name": "Nora Patel",
+    "neighborhood": "West End",
+    "tier": "standard",
+    "contactEmail": "nora.patel@example.com",
+    "contactPhone": "+1-555-0105"
+  },
+  {
+    "id": "cust-06",
+    "name": "Harbor Logistics",
+    "neighborhood": "Harbor",
+    "tier": "priority",
+    "contactEmail": "ops@harborlogistics.example",
+    "contactPhone": "+1-555-0106"
+  }
+]

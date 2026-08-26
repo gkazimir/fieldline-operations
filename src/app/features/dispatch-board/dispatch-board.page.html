@@ -7,15 +7,35 @@
   <section class="toolbar" aria-label="Dispatch filters">
     <div class="toolbar-field">
       <span class="label">Search</span>
-      <span class="value">Customer or neighborhood</span>
+      <input
+        pInputText
+        type="text"
+        placeholder="Customer or neighborhood"
+        [ngModel]="searchTerm()"
+        (ngModelChange)="updateSearchTerm($event)"
+      />
     </div>
     <div class="toolbar-field">
       <span class="label">Status</span>
-      <span class="value">All statuses</span>
+      <p-select
+        [options]="statusOptions"
+        optionLabel="label"
+        optionValue="value"
+        [ngModel]="statusFilter()"
+        (ngModelChange)="updateStatusFilter($event)"
+        appendTo="body"
+      />
     </div>
     <div class="toolbar-field">
       <span class="label">Assignment</span>
-      <span class="value">All jobs</span>
+      <p-select
+        [options]="assignmentOptions"
+        optionLabel="label"
+        optionValue="value"
+        [ngModel]="assignmentFilter()"
+        (ngModelChange)="updateAssignmentFilter($event)"
+        appendTo="body"
+      />
     </div>
   </section>
 
@@ -41,7 +61,7 @@
             formatStatus(job.status)
           }}</span>
         </div>
-        <div class="cell">{{ job.technicianId ?? 'Unassigned' }}</div>
+        <div class="cell">{{ technicianName(job.technicianId) }}</div>
         <div class="cell">
           @if (job.status === 'issue') {
             <span class="priority risk">SLA risk</span>
@@ -50,16 +70,21 @@
           }
         </div>
         <div class="cell actions">
-          <button pButton type="button" size="small" severity="secondary">Assign</button>
+          <p-select
+            [options]="technicianOptions()"
+            optionLabel="name"
+            optionValue="id"
+            [ngModel]="job.technicianId"
+            (ngModelChange)="assignTechnician(job.id, $event)"
+            placeholder="Assign"
+            appendTo="body"
+          />
         </div>
       </article>
+    } @empty {
+      <p class="empty-state">No jobs match the current filters.</p>
     }
   </section>
 
   <p class="summary">Assigned: {{ assignedCount() }} · Unassigned: {{ unassignedCount() }}</p>
-
-  <article class="placeholder" aria-label="Dispatch roadmap">
-    <h3>Next implementation step</h3>
-    <p>Wire toolbar filters and assign action to service methods and a focused dialog.</p>
-  </article>
 </section>

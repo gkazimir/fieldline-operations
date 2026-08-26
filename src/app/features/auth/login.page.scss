@@ -54,24 +54,6 @@
   gap: 0.5rem;
 }
 
-:host ::ng-deep .p-card {
-  border: 1px solid var(--border-default);
-  border-radius: var(--radius-md);
-  box-shadow: var(--shadow-sm);
-  background: var(--surface-elevated);
-}
-
-:host ::ng-deep .p-card .p-card-title {
-  font-size: 0.95rem;
-  font-weight: 660;
-}
-
-:host ::ng-deep .p-button {
-  border-radius: 7px;
-  font-weight: 600;
-  min-height: 2rem;
-}
-
 .placeholder {
   margin-top: 0;
 }
