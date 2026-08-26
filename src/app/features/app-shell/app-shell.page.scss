@@ -1,0 +1,122 @@
+.skip-link {
+  position: absolute;
+  left: 1rem;
+  top: -9999px;
+  z-index: 1000;
+  background: var(--surface-elevated);
+  color: var(--text-body);
+  padding: 0.55rem 0.82rem;
+  border-radius: var(--radius-sm);
+  border: 2px solid var(--focus-ring);
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.skip-link:focus-visible {
+  top: 1rem;
+}
+
+.layout {
+  min-height: 100vh;
+  display: grid;
+  grid-template-columns: 252px 1fr;
+  background: var(--surface-base);
+}
+
+.sidebar {
+  border-right: 1px solid var(--border-default);
+  padding: 1.1rem 0.85rem 0.85rem;
+  background: var(--surface-elevated);
+  box-shadow: none;
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow: auto;
+}
+
+.sidebar h1 {
+  margin: 0;
+  font-size: 1.18rem;
+  font-weight: 680;
+  letter-spacing: -0.01em;
+}
+
+.subtitle {
+  margin: 0.35rem 0 1.05rem;
+  color: var(--text-muted);
+  line-height: 1.4;
+  font-size: 0.8rem;
+}
+
+nav {
+  display: grid;
+  gap: 0.28rem;
+}
+
+nav a {
+  border-radius: var(--radius-sm);
+  padding: 0.52rem 0.62rem;
+  color: var(--text-body);
+  text-decoration: none;
+  border: 1px solid transparent;
+  transition:
+    background-color 160ms ease,
+    border-color 160ms ease,
+    color 160ms ease;
+  font-size: 0.9rem;
+  font-weight: 560;
+}
+
+nav a:hover {
+  background: var(--surface-muted);
+  border-color: var(--border-subtle);
+}
+
+nav a:focus-visible {
+  outline: 3px solid var(--focus-ring);
+  outline-offset: 2px;
+  border-color: var(--focus-ring);
+  background: var(--surface-elevated);
+}
+
+nav a.active {
+  background: var(--accent-soft);
+  color: var(--accent-strong);
+  border-color: var(--accent-soft-border);
+  font-weight: 650;
+  box-shadow: inset 2px 0 0 var(--accent);
+}
+
+.content {
+  padding: 1.25rem 1.15rem;
+  width: min(100%, 1240px);
+  margin-inline: auto;
+}
+
+@media (max-width: 960px) {
+  .layout {
+    grid-template-columns: 1fr;
+  }
+
+  .sidebar {
+    position: static;
+    height: auto;
+    border-right: 0;
+    border-bottom: 1px solid var(--border-subtle);
+    box-shadow: none;
+  }
+
+  nav {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 640px) {
+  nav {
+    grid-template-columns: 1fr;
+  }
+
+  .content {
+    padding: 1rem 0.85rem;
+  }
+}

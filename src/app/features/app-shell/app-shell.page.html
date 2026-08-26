@@ -1,0 +1,33 @@
+<a class="skip-link" href="#main-content">Skip to main content</a>
+
+<div class="layout">
+  <aside class="sidebar" aria-label="Primary navigation">
+    <h1>SkillSprint Hub</h1>
+    <p class="subtitle">Neighborhood Service Operations Platform</p>
+
+    <nav aria-label="Primary">
+      <a routerLink="/app/dashboard" routerLinkActive="active" ariaCurrentWhenActive="page"
+        >Dashboard</a
+      >
+      <a routerLink="/app/dispatch-board" routerLinkActive="active" ariaCurrentWhenActive="page"
+        >Dispatch Board</a
+      >
+      <a routerLink="/app/field-operations" routerLinkActive="active" ariaCurrentWhenActive="page"
+        >Field Ops</a
+      >
+      <a routerLink="/app/customer-accounts" routerLinkActive="active" ariaCurrentWhenActive="page"
+        >Customers</a
+      >
+      <a routerLink="/app/operations-reports" routerLinkActive="active" ariaCurrentWhenActive="page"
+        >Reports</a
+      >
+      <a routerLink="/app/settings" routerLinkActive="active" ariaCurrentWhenActive="page"
+        >Settings</a
+      >
+    </nav>
+  </aside>
+
+  <main class="content" id="main-content">
+    <router-outlet />
+  </main>
+</div>

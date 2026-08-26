@@ -1,0 +1,32 @@
+<section class="feature-shell">
+  <header class="feature-header">
+    <h2>Field Operations</h2>
+    <p>Monitor incidents and jobs requiring attention.</p>
+  </header>
+
+  @if (incidentJobs().length > 0) {
+    <section class="incident-list" aria-label="Active field incidents">
+      @for (job of incidentJobs(); track job.id) {
+        <article
+          class="incident-item"
+          [attr.data-status]="job.status"
+          aria-label="Active field job"
+        >
+          <div class="incident-main">
+            <h3>{{ job.customer }}</h3>
+            <p>{{ job.serviceType }} · {{ job.neighborhood }}</p>
+          </div>
+          <div class="incident-meta">
+            <span class="status">{{ job.status === 'issue' ? 'Issue' : 'In progress' }}</span>
+            <span class="time">Scheduled {{ job.scheduledAt | date: 'short' }}</span>
+          </div>
+        </article>
+      }
+    </section>
+  } @else {
+    <article class="placeholder" aria-label="No active incidents">
+      <h3>All incidents cleared</h3>
+      <p>Everything currently appears to be operating normally.</p>
+    </article>
+  }
+</section>

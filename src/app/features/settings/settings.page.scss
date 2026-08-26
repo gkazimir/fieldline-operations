@@ -1,0 +1,134 @@
+.settings-form {
+  display: grid;
+  gap: 0.8rem;
+}
+
+.settings-section {
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-md);
+  background: var(--surface-elevated);
+  box-shadow: var(--shadow-sm);
+  padding: 0.75rem 0.82rem;
+  display: grid;
+  gap: 0.62rem;
+}
+
+.settings-section h3 {
+  margin: 0;
+  font-size: 0.96rem;
+  font-weight: 660;
+}
+
+.section-intro {
+  margin: 0;
+  font-size: 0.84rem;
+  color: var(--text-muted);
+}
+
+.examples-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.62rem;
+}
+
+.example-item {
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-sm);
+  background: var(--surface-muted);
+  padding: 0.62rem;
+  display: grid;
+  gap: 0.35rem;
+}
+
+.example-item h4 {
+  margin: 0;
+  font-size: 0.88rem;
+  font-weight: 640;
+}
+
+.example-item p {
+  margin: 0;
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}
+
+.example-item label {
+  font-size: 0.8rem;
+  font-weight: 610;
+}
+
+.settings-row {
+  display: grid;
+  grid-template-columns: minmax(220px, 1fr) minmax(200px, 320px);
+  gap: 0.82rem;
+  align-items: start;
+}
+
+.field-meta {
+  display: grid;
+  gap: 0.18rem;
+}
+
+.field-meta label {
+  font-size: 0.84rem;
+  color: var(--text-title);
+  font-weight: 620;
+}
+
+.field-meta p {
+  margin: 0;
+  font-size: 0.82rem;
+  color: var(--text-muted);
+}
+
+.actions {
+  margin-top: 0.2rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.preview {
+  border: 1px dashed var(--border-strong);
+  border-radius: var(--radius-sm);
+  background: var(--surface-muted);
+  padding: 0.64rem;
+}
+
+.preview h4 {
+  margin: 0 0 0.4rem;
+  font-size: 0.86rem;
+  font-weight: 630;
+}
+
+.preview pre {
+  margin: 0;
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-sm);
+  background: var(--surface-elevated);
+  padding: 0.62rem;
+  font-size: 0.8rem;
+  overflow: auto;
+}
+
+:host ::ng-deep .p-select,
+:host ::ng-deep .p-multiselect {
+  width: 100%;
+  border-radius: 7px;
+}
+
+:host ::ng-deep .p-button {
+  border-radius: 7px;
+  font-weight: 600;
+  min-height: 2rem;
+}
+
+@media (max-width: 768px) {
+  .examples-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .settings-row {
+    grid-template-columns: 1fr;
+  }
+}

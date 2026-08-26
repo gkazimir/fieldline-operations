@@ -1,0 +1,65 @@
+<section class="feature-shell">
+  <header class="feature-header">
+    <h2>Dispatch Board</h2>
+    <p>Assign and monitor today's service jobs.</p>
+  </header>
+
+  <section class="toolbar" aria-label="Dispatch filters">
+    <div class="toolbar-field">
+      <span class="label">Search</span>
+      <span class="value">Customer or neighborhood</span>
+    </div>
+    <div class="toolbar-field">
+      <span class="label">Status</span>
+      <span class="value">All statuses</span>
+    </div>
+    <div class="toolbar-field">
+      <span class="label">Assignment</span>
+      <span class="value">All jobs</span>
+    </div>
+  </section>
+
+  <section class="dispatch-table" aria-label="Job dispatch list">
+    <header class="table-head" aria-hidden="true">
+      <span>Job</span>
+      <span>Neighborhood</span>
+      <span>Status</span>
+      <span>Technician</span>
+      <span>Priority</span>
+      <span>Action</span>
+    </header>
+
+    @for (job of jobs(); track job.id) {
+      <article class="table-row" [class.unassigned]="job.technicianId === null">
+        <div class="cell job">
+          <strong>{{ job.customer }}</strong>
+          <span>{{ job.serviceType }}</span>
+        </div>
+        <div class="cell">{{ job.neighborhood }}</div>
+        <div class="cell">
+          <span class="status-chip" [attr.data-status]="job.status">{{
+            formatStatus(job.status)
+          }}</span>
+        </div>
+        <div class="cell">{{ job.technicianId ?? 'Unassigned' }}</div>
+        <div class="cell">
+          @if (job.status === 'issue') {
+            <span class="priority risk">SLA risk</span>
+          } @else {
+            <span class="priority normal">Normal</span>
+          }
+        </div>
+        <div class="cell actions">
+          <button pButton type="button" size="small" severity="secondary">Assign</button>
+        </div>
+      </article>
+    }
+  </section>
+
+  <p class="summary">Assigned: {{ assignedCount() }} · Unassigned: {{ unassignedCount() }}</p>
+
+  <article class="placeholder" aria-label="Dispatch roadmap">
+    <h3>Next implementation step</h3>
+    <p>Wire toolbar filters and assign action to service methods and a focused dialog.</p>
+  </article>
+</section>

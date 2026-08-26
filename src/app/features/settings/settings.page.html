@@ -1,0 +1,111 @@
+<section class="feature-shell">
+  <header class="feature-header">
+    <h2>Settings</h2>
+    <p>Configure application preferences.</p>
+  </header>
+
+  <form class="settings-form" aria-label="Application settings form">
+    <section class="settings-section" aria-labelledby="primeng-examples-title">
+      <h3 id="primeng-examples-title">PrimeNG examples</h3>
+      <p class="section-intro">
+        This section intentionally demonstrates <strong>p-select</strong> and
+        <strong>p-multiSelect</strong> with two-way form binding.
+      </p>
+
+      <div class="examples-grid">
+        <article class="example-item" aria-label="PrimeNG Select example">
+          <h4>Example 1: p-select</h4>
+          <p>Select one persistence mode.</p>
+
+          <label for="persistence-select">Persistence mode</label>
+          <p-select
+            inputId="persistence-select"
+            name="examplePersistenceMode"
+            [options]="persistenceOptions"
+            optionLabel="label"
+            optionValue="value"
+            [ngModel]="selectedPersistence()"
+            (ngModelChange)="updatePersistence($event)"
+            placeholder="Select retention mode"
+            appendTo="body"
+          />
+        </article>
+
+        <article class="example-item" aria-label="PrimeNG MultiSelect example">
+          <h4>Example 2: p-multiSelect</h4>
+          <p>Select one or more enabled modules.</p>
+
+          <label for="focus-multiselect">Enabled modules</label>
+          <p-multiSelect
+            inputId="focus-multiselect"
+            name="exampleEnabledModules"
+            [options]="focusAreaOptions"
+            optionLabel="label"
+            optionValue="value"
+            [ngModel]="selectedFocusAreas()"
+            (ngModelChange)="updateFocusAreas($event)"
+            placeholder="Select one or more"
+            display="chip"
+            appendTo="body"
+          />
+        </article>
+      </div>
+    </section>
+
+    <section class="settings-section" aria-labelledby="general-title">
+      <h3 id="general-title">General</h3>
+
+      <div class="settings-row">
+        <div class="field-meta">
+          <label for="persistence-select-summary">Persistence mode</label>
+          <p>Choose how long settings should be retained on this device.</p>
+        </div>
+        <p-select
+          inputId="persistence-select-summary"
+          name="generalPersistenceMode"
+          [options]="persistenceOptions"
+          optionLabel="label"
+          optionValue="value"
+          [ngModel]="selectedPersistence()"
+          (ngModelChange)="updatePersistence($event)"
+          placeholder="Select retention mode"
+          appendTo="body"
+        />
+      </div>
+
+      <div class="settings-row">
+        <div class="field-meta">
+          <label for="focus-multiselect-summary">Enabled modules</label>
+          <p>Select operational areas to prioritize in your workspace.</p>
+        </div>
+        <p-multiSelect
+          inputId="focus-multiselect-summary"
+          name="generalEnabledModules"
+          [options]="focusAreaOptions"
+          optionLabel="label"
+          optionValue="value"
+          [ngModel]="selectedFocusAreas()"
+          (ngModelChange)="updateFocusAreas($event)"
+          placeholder="Select one or more"
+          display="chip"
+          appendTo="body"
+        />
+      </div>
+    </section>
+
+    <section class="settings-section" aria-labelledby="application-title">
+      <h3 id="application-title">Application</h3>
+      <article class="preview" aria-label="Configuration state preview">
+        <h4>Configuration preview</h4>
+        <pre>{{ preview() | json }}</pre>
+      </article>
+    </section>
+
+    <div class="actions" role="group" aria-label="Preference actions">
+      <button pButton type="button" (click)="savePreferences()">Save settings</button>
+      <button pButton type="button" severity="secondary" (click)="resetPreferences()">
+        Reset defaults
+      </button>
+    </div>
+  </form>
+</section>

@@ -1,1 +1,180 @@
-/* You can add global styles to this file, and also import other style files */
+:root {
+  color-scheme: light;
+
+  --surface-canvas: #f4f7f8;
+  --surface-base: #e9eff1;
+  --surface-elevated: #ffffff;
+  --surface-muted: #f1f5f6;
+  --surface-strong: #dde7ea;
+
+  --text-title: #0c161f;
+  --text-body: #18232c;
+  --text-muted: #496071;
+  --text-disabled: #71838c;
+
+  --border-subtle: #d5e0e4;
+  --border-default: #c4d3d9;
+  --border-strong: #98afb8;
+
+  --accent-strong: #0f4e63;
+  --accent: #176a80;
+  --accent-soft: #d9ebf1;
+  --accent-soft-border: #9abfcb;
+  --alert-strong: #b36900;
+  --alert: #c57a0a;
+  --alert-soft: #ffeccf;
+  --alert-border: #e5be7a;
+  --ok-strong: #1f6a49;
+  --ok: #287b57;
+  --ok-soft: #e1f2e9;
+  --danger-strong: #a63d40;
+  --danger-soft: #f8e7e7;
+  --focus-ring: #005ecb;
+
+  --status-new-bg: var(--accent-soft);
+  --status-new-fg: var(--accent-strong);
+  --status-assigned-bg: #e6f2f6;
+  --status-assigned-fg: var(--accent);
+  --status-progress-bg: #d8ebf2;
+  --status-progress-fg: #0f5f75;
+  --status-done-bg: var(--ok-soft);
+  --status-done-fg: var(--ok);
+  --status-issue-bg: var(--danger-soft);
+  --status-issue-fg: var(--danger-strong);
+  --status-risk-bg: var(--alert-soft);
+  --status-risk-fg: var(--alert-strong);
+
+  --radius-sm: 6px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+
+  --shadow-sm: 0 1px 2px rgb(12 34 46 / 0.05);
+  --shadow-md: 0 4px 12px rgb(12 34 46 / 0.08);
+
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.25rem;
+  --space-6: 1.5rem;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  min-height: 100%;
+}
+
+body {
+  font-family: 'Aptos', 'IBM Plex Sans', 'Segoe UI Variable', 'Segoe UI', sans-serif;
+  color: var(--text-body);
+  background: linear-gradient(180deg, var(--surface-canvas) 0%, var(--surface-base) 58%);
+  line-height: 1.5;
+  font-size: 15px;
+  letter-spacing: 0.005em;
+}
+
+a {
+  color: inherit;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  color: var(--text-title);
+  letter-spacing: -0.01em;
+}
+
+p {
+  max-width: 70ch;
+}
+
+.feature-shell {
+  display: grid;
+  gap: var(--space-4);
+}
+
+.feature-header {
+  padding: var(--space-4) var(--space-5);
+  border: 1px solid var(--border-default);
+  border-top: 2px solid var(--accent-soft-border);
+  border-radius: var(--radius-lg);
+  background: var(--surface-elevated);
+  box-shadow: var(--shadow-sm);
+  display: grid;
+  gap: 0.35rem;
+}
+
+.feature-header h2 {
+  margin: 0;
+  font-size: clamp(1.45rem, 1.2rem + 0.72vw, 1.9rem);
+  font-weight: 680;
+  letter-spacing: -0.015em;
+}
+
+.feature-header p {
+  margin: 0;
+  color: var(--text-muted);
+  font-size: 0.92rem;
+}
+
+.feature-header-actions {
+  display: flex;
+  gap: var(--space-2);
+  justify-content: flex-end;
+  flex-wrap: wrap;
+}
+
+.placeholder {
+  border: 1px dashed var(--border-strong);
+  border-radius: var(--radius-md);
+  padding: var(--space-4);
+  background: var(--surface-muted);
+}
+
+.placeholder h3 {
+  margin: 0 0 0.35rem;
+  font-size: 1rem;
+  font-weight: 650;
+}
+
+.placeholder p {
+  margin: 0;
+  color: var(--text-muted);
+  font-size: 0.9rem;
+}
+
+::selection {
+  background: var(--accent-soft);
+  color: var(--text-title);
+}
+
+@media (max-width: 640px) {
+  body {
+    font-size: 14px;
+  }
+
+  .feature-header {
+    padding: 0.86rem 0.95rem;
+  }
+
+  .feature-header h2 {
+    font-size: clamp(1.3rem, 1.12rem + 0.62vw, 1.55rem);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0ms !important;
+    scroll-behavior: auto !important;
+  }
+}

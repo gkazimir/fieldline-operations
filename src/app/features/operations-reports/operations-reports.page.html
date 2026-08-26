@@ -1,0 +1,35 @@
+<section class="feature-shell">
+  <header class="feature-header">
+    <h2>Reports</h2>
+    <p>Review service performance and operational trends.</p>
+  </header>
+
+  <section class="report-summary" aria-label="Operational report summary">
+    @for (line of reportLines(); track line) {
+      <article class="summary-item">{{ line }}</article>
+    }
+  </section>
+
+  <section class="trend-block" aria-label="Weekly trend visualization placeholder">
+    <h3>Trend overview</h3>
+    <div class="trend-rows">
+      <div>
+        <span class="legend completed"></span>
+        <p>Completed jobs trend</p>
+      </div>
+      <div>
+        <span class="legend risk"></span>
+        <p>SLA risk trend</p>
+      </div>
+      <div>
+        <span class="legend incidents"></span>
+        <p>Incident trend</p>
+      </div>
+    </div>
+  </section>
+
+  <article class="placeholder" aria-label="Reports roadmap">
+    <h3>Next implementation step</h3>
+    <p>Add real chart data, labeled units, and export-ready weekly summary.</p>
+  </article>
+</section>

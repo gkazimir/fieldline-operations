@@ -7,7 +7,7 @@
   },
   "newProjectRoot": "projects",
   "projects": {
-    "app": {
+    "skillsprint-hub": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -16,13 +16,14 @@
       },
       "root": "",
       "sourceRoot": "src",
-      "prefix": "app",
+      "prefix": "ss",
       "architect": {
         "build": {
           "builder": "@angular/build:application",
           "options": {
             "browser": "src/main.ts",
             "tsConfig": "tsconfig.app.json",
+            "outputPath": "dist/skillsprint-hub",
             "inlineStyleLanguage": "scss",
             "assets": [
               {
@@ -60,10 +61,10 @@
           "builder": "@angular/build:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "app:build:production"
+              "buildTarget": "skillsprint-hub:build:production"
             },
             "development": {
-              "buildTarget": "app:build:development"
+              "buildTarget": "skillsprint-hub:build:development"
             }
           },
           "defaultConfiguration": "development"

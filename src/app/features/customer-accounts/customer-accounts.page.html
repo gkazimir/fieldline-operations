@@ -1,0 +1,38 @@
+<section class="feature-shell">
+  <header class="feature-header">
+    <h2>Customer Accounts</h2>
+    <p>Prioritize customers based on current activity.</p>
+  </header>
+
+  <section class="accounts-table" aria-label="Customer account priorities">
+    <header class="table-head" aria-hidden="true">
+      <span>Customer</span>
+      <span>Active jobs</span>
+      <span>Open issues</span>
+      <span>Priority</span>
+      <span>Last activity</span>
+    </header>
+
+    @for (job of topCustomers(); track job.id) {
+      <article class="table-row" [class.high]="job.status === 'issue'">
+        <div class="cell customer">
+          <strong>{{ job.customer }}</strong>
+          <span>{{ job.serviceType }}</span>
+        </div>
+        <div class="cell">1</div>
+        <div class="cell">{{ job.status === 'issue' ? 1 : 0 }}</div>
+        <div class="cell">
+          <span class="priority" [class.high]="job.status === 'issue'">
+            {{ job.status === 'issue' ? 'High' : 'Normal' }}
+          </span>
+        </div>
+        <div class="cell">{{ job.neighborhood }}</div>
+      </article>
+    }
+  </section>
+
+  <article class="placeholder" aria-label="Customer account roadmap">
+    <h3>Next implementation step</h3>
+    <p>Add account profile pages, contact history, and SLA contract tiers.</p>
+  </article>
+</section>

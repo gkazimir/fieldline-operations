@@ -1,0 +1,162 @@
+.header-meta {
+  margin: 0.55rem 0 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 0.5rem;
+}
+
+.header-meta div {
+  margin: 0;
+  padding: 0.54rem 0.62rem;
+  border-radius: var(--radius-sm);
+  background: var(--surface-muted);
+  border: 1px solid var(--border-default);
+}
+
+.header-meta dt {
+  margin: 0;
+  font-size: 0.72rem;
+  font-weight: 620;
+  color: var(--text-muted);
+  letter-spacing: 0.02em;
+}
+
+.header-meta dd {
+  margin: 0.14rem 0 0;
+  font-size: 0.9rem;
+}
+
+.metrics-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 0.5rem;
+}
+
+.metric-tile {
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-md);
+  background: var(--surface-elevated);
+  box-shadow: var(--shadow-sm);
+  padding: 0.62rem 0.66rem;
+  display: grid;
+  gap: 0.16rem;
+}
+
+.metric-tile h3 {
+  margin: 0;
+  font-size: 0.72rem;
+  color: var(--text-muted);
+  font-weight: 620;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+}
+
+.metric-tile[data-metric='SLA at risk'] {
+  border-color: var(--alert-border);
+  background: var(--alert-soft);
+}
+
+.metric-value {
+  margin: 0;
+  font-size: clamp(1.16rem, 1.04rem + 0.7vw, 1.5rem);
+  font-weight: 690;
+  color: var(--accent-strong);
+  line-height: 1.2;
+}
+
+.metric-tile[data-metric='SLA at risk'] .metric-value {
+  color: var(--alert-strong);
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.attention-panel,
+.recent-jobs {
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-md);
+  background: var(--surface-elevated);
+  box-shadow: var(--shadow-sm);
+  padding: 0.74rem 0.82rem;
+}
+
+.attention-head {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+.attention-head h3,
+.recent-jobs h3 {
+  margin: 0;
+  font-size: 1.02rem;
+  font-weight: 660;
+}
+
+.attention-context {
+  margin-top: 0.55rem;
+  padding: 0.58rem 0.62rem;
+  border-radius: var(--radius-sm);
+  background: var(--surface-muted);
+  border: 1px solid var(--border-subtle);
+}
+
+.attention-context p {
+  margin: 0;
+  font-size: 0.9rem;
+  color: var(--text-muted);
+}
+
+.inline-jobs {
+  margin: 0.65rem 0 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 0.5rem;
+}
+
+.inline-jobs li {
+  display: grid;
+  gap: 0.12rem;
+  padding: 0.52rem 0.6rem;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border-subtle);
+  background: var(--surface-canvas);
+}
+
+.inline-jobs li strong {
+  font-size: 0.92rem;
+}
+
+.inline-jobs li span {
+  color: var(--text-muted);
+  font-size: 0.83rem;
+}
+
+:host ::ng-deep .p-button {
+  border-radius: 7px;
+  font-weight: 600;
+  min-height: 2rem;
+  padding-inline: 0.72rem;
+}
+
+:host ::ng-deep .p-button.p-button-secondary {
+  background: var(--surface-elevated);
+  color: var(--accent-strong);
+  border: 1px solid var(--border-default);
+}
+
+@media (max-width: 640px) {
+  .attention-head {
+    align-items: flex-start;
+  }
+
+  .metrics-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}

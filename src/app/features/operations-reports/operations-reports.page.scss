@@ -1,0 +1,71 @@
+.report-summary {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 0.5rem;
+}
+
+.summary-item {
+  padding: 0.6rem 0.68rem;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-default);
+  background: var(--surface-elevated);
+  box-shadow: var(--shadow-sm);
+  font-size: 0.88rem;
+}
+
+.trend-block {
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-md);
+  background: var(--surface-elevated);
+  box-shadow: var(--shadow-sm);
+  padding: 0.75rem 0.85rem;
+}
+
+.trend-block h3 {
+  margin: 0;
+  font-size: 1rem;
+}
+
+.trend-rows {
+  margin-top: 0.6rem;
+  display: grid;
+  gap: 0.42rem;
+}
+
+.trend-rows div {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.42rem 0.5rem;
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-sm);
+  background: var(--surface-muted);
+}
+
+.trend-rows p {
+  margin: 0;
+  font-size: 0.85rem;
+}
+
+.legend {
+  width: 0.62rem;
+  height: 0.62rem;
+  border-radius: 999px;
+  display: inline-block;
+}
+
+.legend.completed {
+  background: var(--accent);
+}
+
+.legend.risk {
+  background: var(--alert);
+}
+
+.legend.incidents {
+  background: var(--danger-strong);
+}
+
+.placeholder {
+  margin-top: 0;
+}

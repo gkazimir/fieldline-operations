@@ -1,0 +1,57 @@
+<section class="feature-shell">
+  <header class="feature-header">
+    <h2>Operations Dashboard</h2>
+    <p>Current operational overview.</p>
+    <dl class="header-meta" aria-label="Current operational highlights">
+      <div>
+        <dt>Current focus</dt>
+        <dd>{{ headline().focus }}</dd>
+      </div>
+      <div>
+        <dt>Recommended action</dt>
+        <dd>{{ headline().action }}</dd>
+      </div>
+    </dl>
+  </header>
+
+  <section class="metrics-grid" role="list" aria-label="Operational summary metrics">
+    @for (metric of metrics(); track metric.label) {
+      <article class="metric-tile" role="listitem" [attr.data-metric]="metric.label">
+        <h3>{{ metric.label }}</h3>
+        <p class="metric-value">{{ metric.value }}{{ metric.suffix ?? '' }}</p>
+      </article>
+    }
+  </section>
+
+  <section class="attention-panel" aria-labelledby="attention-title">
+    <div class="attention-head">
+      <h3 id="attention-title">Needs attention</h3>
+      <div class="actions">
+        <button pButton type="button" routerLink="/app/dispatch-board">Open Dispatch Board</button>
+        <button pButton type="button" severity="secondary" routerLink="/app/field-operations">
+          Open Field Ops
+        </button>
+      </div>
+    </div>
+
+    <article class="attention-context" aria-label="Current attention context">
+      <p>
+        Prioritize jobs flagged as <strong>issue</strong> or <strong>in-progress</strong> to reduce
+        SLA risk.
+      </p>
+    </article>
+  </section>
+
+  <article class="recent-jobs" aria-label="Recent job stream">
+    <h3>Recent jobs</h3>
+    <ul class="inline-jobs">
+      @for (job of quickJobs(); track job.id) {
+        <li>
+          <strong>{{ job.customer }}</strong>
+          <span>{{ job.serviceType }}</span>
+          <span>{{ job.neighborhood }}</span>
+        </li>
+      }
+    </ul>
+  </article>
+</section>
