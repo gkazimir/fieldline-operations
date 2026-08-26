@@ -63,6 +63,6 @@ export class SettingsPage {
   protected savePreferences(): void {
     const payload = this.preview();
     const storageTarget = payload.persistence === 'session' ? sessionStorage : localStorage;
-    storageTarget.setItem('skillsprint.preferences', JSON.stringify(payload));
+    storageTarget.setItem('fieldline.preferences', JSON.stringify(payload));
   }
 }

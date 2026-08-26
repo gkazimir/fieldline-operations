@@ -7,7 +7,7 @@
   },
   "newProjectRoot": "projects",
   "projects": {
-    "skillsprint-hub": {
+    "fieldline-operations": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -16,14 +16,14 @@
       },
       "root": "",
       "sourceRoot": "src",
-      "prefix": "ss",
+      "prefix": "fl",
       "architect": {
         "build": {
           "builder": "@angular/build:application",
           "options": {
             "browser": "src/main.ts",
             "tsConfig": "tsconfig.app.json",
-            "outputPath": "dist/skillsprint-hub",
+            "outputPath": "dist/fieldline-operations",
             "inlineStyleLanguage": "scss",
             "assets": [
               {
@@ -61,10 +61,10 @@
           "builder": "@angular/build:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "skillsprint-hub:build:production"
+              "buildTarget": "fieldline-operations:build:production"
             },
             "development": {
-              "buildTarget": "skillsprint-hub:build:development"
+              "buildTarget": "fieldline-operations:build:development"
             }
           },
           "defaultConfiguration": "development"

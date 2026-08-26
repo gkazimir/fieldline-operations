@@ -1,6 +1,6 @@
-# SkillSprint Hub
+# Fieldline
 
-SkillSprint Hub is a modern Angular neighborhood service operations platform.
+Fieldline is a modern Angular neighborhood service operations platform.
 It models practical dispatch workflows: active jobs, technician capacity, backlog visibility,
 customer accounts, and reporting, while still serving as a strong Angular learning project.
 
@@ -127,4 +127,4 @@ The project follows a WCAG-aware baseline:
 
 Production build output is generated in:
 
-`dist/skillsprint-hub`
+`dist/fieldline-operations`
