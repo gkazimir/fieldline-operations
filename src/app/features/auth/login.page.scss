@@ -54,6 +54,38 @@
   gap: 0.5rem;
 }
 
+.login-form {
+  display: grid;
+  gap: 0.85rem;
+}
+
+.field {
+  display: grid;
+  gap: 0.32rem;
+}
+
+.field label {
+  font-size: 0.84rem;
+  font-weight: 620;
+}
+
+.field input,
+.field .p-password {
+  width: 100%;
+}
+
+.field-error {
+  margin: 0;
+  color: var(--danger-strong);
+  font-size: 0.8rem;
+}
+
+.hint {
+  margin: 0;
+  color: var(--text-muted);
+  font-size: 0.8rem;
+}
+
 .placeholder {
   margin-top: 0;
 }

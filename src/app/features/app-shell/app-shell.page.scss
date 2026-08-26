@@ -32,6 +32,8 @@
   top: 0;
   height: 100vh;
   overflow: auto;
+  display: flex;
+  flex-direction: column;
 }
 
 .sidebar h1 {
@@ -91,6 +93,30 @@ nav a.active {
   padding: 1.25rem 1.15rem;
   width: min(100%, 1240px);
   margin-inline: auto;
+}
+
+.session-footer {
+  margin-top: auto;
+  padding-top: 0.9rem;
+  border-top: 1px solid var(--border-subtle);
+  display: grid;
+  gap: 0.15rem;
+}
+
+.session-user {
+  margin: 0;
+  font-weight: 620;
+  font-size: 0.88rem;
+}
+
+.session-role {
+  margin: 0 0 0.5rem;
+  font-size: 0.78rem;
+  color: var(--text-muted);
+}
+
+.session-footer button {
+  width: 100%;
 }
 
 @media (max-width: 960px) {

@@ -12,20 +12,47 @@
 
     <section class="login-panel" aria-label="Authentication">
       <p-card header="Sign in">
-        <p class="lead">
-          Continue to the operations workspace. Extend with auth guards, token lifecycle checks, and
-          role-specific access.
-        </p>
+        <p class="lead">Sign in with your work email to continue to the operations workspace.</p>
 
-        <div class="actions">
-          <button pButton type="button" routerLink="/app/dashboard">Continue to Dashboard</button>
-        </div>
+        <form class="login-form" [formGroup]="form" (ngSubmit)="submit()" novalidate>
+          <div class="field">
+            <label for="login-email">Work email</label>
+            <input
+              pInputText
+              id="login-email"
+              type="email"
+              formControlName="email"
+              autocomplete="username"
+              placeholder="you@fieldline.app"
+            />
+            @if (submitted() && form.controls.email.invalid) {
+              <p class="field-error">Enter a valid email address.</p>
+            }
+          </div>
+
+          <div class="field">
+            <label for="login-password">Password</label>
+            <p-password
+              inputId="login-password"
+              formControlName="password"
+              [feedback]="false"
+              [toggleMask]="true"
+              autocomplete="current-password"
+            />
+            @if (submitted() && form.controls.password.invalid) {
+              <p class="field-error">Enter your password.</p>
+            }
+          </div>
+
+          <p class="hint">
+            Any email and password combination signs you in — there's no real backend yet.
+          </p>
+
+          <div class="actions">
+            <button pButton type="submit">Sign in</button>
+          </div>
+        </form>
       </p-card>
-
-      <article class="placeholder" aria-label="Auth roadmap">
-        <h3>Next implementation step</h3>
-        <p>Add typed reactive login form, MFA prompt, and role-specific redirects by team.</p>
-      </article>
     </section>
   </section>
 </section>

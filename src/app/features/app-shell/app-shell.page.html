@@ -25,6 +25,16 @@
         >Settings</a
       >
     </nav>
+
+    <div class="session-footer">
+      @if (currentUser(); as user) {
+        <p class="session-user">{{ user.name }}</p>
+        <p class="session-role">{{ user.role }}</p>
+      }
+      <button pButton type="button" severity="secondary" size="small" (click)="signOut()">
+        Sign out
+      </button>
+    </div>
   </aside>
 
   <main class="content" id="main-content">
