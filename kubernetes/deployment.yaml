@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: fieldline-operations
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: fieldline-operations
+  template:
+    metadata:
+      labels:
+        app: fieldline-operations
+    spec:
+      containers:
+        - name: fieldline-operations
+          image: fieldline-operations:latest
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 80
+          readinessProbe:
+            httpGet:
+              path: /index.html
+              port: 80
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          livenessProbe:
+            httpGet:
+              path: /index.html
+              port: 80
+            initialDelaySeconds: 15
+            periodSeconds: 20
+          resources:
+            requests:
+              cpu: '100m'
+              memory: '64Mi'
+            limits:
+              cpu: '250m'
+              memory: '128Mi'
