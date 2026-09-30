@@ -102,3 +102,44 @@ jobs:
       - name: Deploy pages
         uses: actions/deploy-pages@v4
         id: deployment
+
+# Example only: uncomment this job when the Oracle VM and k3s cluster are ready.
+# Requires Helm and working k3s access on the VM, plus SSH access from the runner.
+# Publish an arm64 image for OCI A1; the current GHCR image is amd64-only.
+# Configure OCI_HOST, OCI_SSH_PRIVATE_KEY, and verified OCI_SSH_KNOWN_HOSTS secrets.
+# Restrict VM SSH access and require approval for production deployments.
+# deploy-k3s:
+#   needs: [validate, build-and-publish]
+#   if: ${{ github.event_name == 'push' && contains(fromJSON('["development", "test", "main"]'), github.ref_name) }}
+#   runs-on: ubuntu-latest
+#   permissions:
+#     contents: read
+#   environment: ${{ github.ref_name }}
+#   steps:
+#     - name: Checkout charts
+#       uses: actions/checkout@v4
+#     - name: Setup Helm
+#       uses: azure/setup-helm@v4
+#     - name: Prepare SSH
+#       env:
+#         OCI_SSH_PRIVATE_KEY: ${{ secrets.OCI_SSH_PRIVATE_KEY }}
+#         OCI_SSH_KNOWN_HOSTS: ${{ secrets.OCI_SSH_KNOWN_HOSTS }}
+#       run: |
+#         install -m 700 -d ~/.ssh
+#         printf '%s\n' "$OCI_SSH_PRIVATE_KEY" > ~/.ssh/id_deploy
+#         chmod 600 ~/.ssh/id_deploy
+#         printf '%s\n' "$OCI_SSH_KNOWN_HOSTS" > ~/.ssh/known_hosts
+#         chmod 600 ~/.ssh/known_hosts
+#     - name: Package selected chart
+#       env:
+#         CHART_ENV: ${{ github.ref_name }}
+#       run: helm package "kubernetes/$CHART_ENV" --destination /tmp
+#     - name: Deploy immutable image with Helm on k3s
+#       env:
+#         OCI_HOST: ${{ secrets.OCI_HOST }}
+#         CHART_ENV: ${{ github.ref_name }}
+#         IMAGE_TAG: ${{ github.sha }}
+#       run: |
+#         scp -i ~/.ssh/id_deploy -o StrictHostKeyChecking=yes /tmp/fieldline-operations-*.tgz "ubuntu@$OCI_HOST:/tmp/fieldline-chart.tgz"
+#         ssh -i ~/.ssh/id_deploy -o StrictHostKeyChecking=yes "ubuntu@$OCI_HOST" \
+#           "helm upgrade --install fieldline-operations /tmp/fieldline-chart.tgz --namespace '$CHART_ENV' --create-namespace --set-string image.tag='$IMAGE_TAG' --atomic --wait --timeout 5m"

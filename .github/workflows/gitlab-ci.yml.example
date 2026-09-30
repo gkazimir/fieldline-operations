@@ -1,0 +1,172 @@
+# GitLab CI example only. Copy to the repository root as .gitlab-ci.yml in a GitLab project.
+# Requires a runner that supports privileged Docker-in-Docker for the image jobs.
+
+stages:
+  - pre
+  - test
+  - build
+  - publish
+  - deploy
+
+workflow:
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event" && $CI_MERGE_REQUEST_TARGET_BRANCH_NAME =~ /^(development|test|main)$/'
+    - if: '$CI_PIPELINE_SOURCE == "push" && $CI_COMMIT_BRANCH =~ /^(development|test|main)$/'
+    - if: '$CI_PIPELINE_SOURCE == "push" && $CI_COMMIT_BRANCH =~ /^(feature[-\/]|fix[-\/])/ && $CI_OPEN_MERGE_REQUESTS == null'
+    - when: never
+
+variables:
+  NPM_CONFIG_CACHE: '$CI_PROJECT_DIR/.npm'
+
+.node_cache: &node_cache
+  key:
+    files:
+      - package-lock.json
+    prefix: '$CI_JOB_NAME'
+  paths:
+    - .npm/
+
+pre_checks:
+  stage: pre
+  image: node:22-alpine
+  cache: *node_cache
+  script:
+    - npm ci --prefer-offline
+    - npm run lint
+    - npm run format:check
+
+unit_tests:
+  stage: test
+  image: node:22-alpine
+  cache: *node_cache
+  script:
+    - npm ci --prefer-offline
+    - npm run test:unit
+
+helm_checks:
+  stage: test
+  image:
+    name: alpine/helm:3.17.3
+    entrypoint: ['']
+  script:
+    - |
+      if [ "$CI_PIPELINE_SOURCE" = "merge_request_event" ]; then
+        CHART_ENV="$CI_MERGE_REQUEST_TARGET_BRANCH_NAME"
+      else
+        CHART_ENV="$CI_COMMIT_BRANCH"
+      fi
+      helm lint "kubernetes/$CHART_ENV"
+      helm template fieldline-operations "kubernetes/$CHART_ENV"
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
+    - if: '$CI_COMMIT_BRANCH =~ /^(development|test|main)$/'
+
+build_image:
+  stage: build
+  image: docker:27-cli
+  services:
+    - name: docker:27-dind
+      alias: docker
+  variables:
+    DOCKER_HOST: 'tcp://docker:2375'
+    DOCKER_TLS_CERTDIR: ''
+  script:
+    - docker build -t "$CI_REGISTRY_IMAGE:$CI_COMMIT_SHA" .
+    - docker save "$CI_REGISTRY_IMAGE:$CI_COMMIT_SHA" -o image.tar
+  artifacts:
+    paths:
+      - image.tar
+    expire_in: 1 day
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "push" && $CI_COMMIT_BRANCH =~ /^(development|test|main)$/'
+
+build_pages:
+  stage: build
+  image: node:22-alpine
+  cache: *node_cache
+  script:
+    - npm ci --prefer-offline
+    - |
+      BASE_PATH="$(node -e 'const p = new URL(process.env.CI_PAGES_URL).pathname; process.stdout.write(p.endsWith("/") ? p : p + "/")')"
+    - npm run build -- --base-href="$BASE_PATH"
+    - cp dist/fieldline-operations/browser/index.html dist/fieldline-operations/browser/404.html
+  artifacts:
+    paths:
+      - dist/fieldline-operations/browser/
+    expire_in: 1 day
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "push" && $CI_COMMIT_BRANCH == "development"'
+
+publish_image:
+  stage: publish
+  image: docker:27-cli
+  services:
+    - name: docker:27-dind
+      alias: docker
+  variables:
+    DOCKER_HOST: 'tcp://docker:2375'
+    DOCKER_TLS_CERTDIR: ''
+  needs:
+    - job: build_image
+      artifacts: true
+  script:
+    - echo "$CI_REGISTRY_PASSWORD" | docker login "$CI_REGISTRY" -u "$CI_REGISTRY_USER" --password-stdin
+    - docker load -i image.tar
+    - docker tag "$CI_REGISTRY_IMAGE:$CI_COMMIT_SHA" "$CI_REGISTRY_IMAGE:$CI_COMMIT_REF_NAME"
+    - docker push "$CI_REGISTRY_IMAGE:$CI_COMMIT_SHA"
+    - docker push "$CI_REGISTRY_IMAGE:$CI_COMMIT_REF_NAME"
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "push" && $CI_COMMIT_BRANCH =~ /^(development|test|main)$/'
+
+publish_pages:
+  stage: deploy
+  image: alpine:3.20
+  needs:
+    - job: build_pages
+      artifacts: true
+    - job: publish_image
+      artifacts: false
+  script:
+    - test -s dist/fieldline-operations/browser/index.html
+  pages:
+    publish: dist/fieldline-operations/browser
+  environment:
+    name: development-pages
+    url: '$CI_PAGES_URL'
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "push" && $CI_COMMIT_BRANCH == "development"'
+
+# Example only: uncomment when the Oracle VM and k3s cluster are ready.
+# The runner must reach the VM via SSH; configure OCI_HOST plus file-type
+# OCI_SSH_PRIVATE_KEY and OCI_SSH_KNOWN_HOSTS as protected CI/CD variables.
+# Build an arm64 image for an OCI A1 VM and configure image pull access if the registry is private.
+# Protect the main branch and require manual approval before production deploys.
+# deploy_k3s:
+#   stage: deploy
+#   image: alpine/helm:3.17.3
+#   needs:
+#     - job: publish_image
+#       artifacts: false
+#   environment:
+#     name: "$CI_COMMIT_BRANCH"
+#   resource_group: "$CI_COMMIT_BRANCH"
+#   rules:
+#     - if: '$CI_PIPELINE_SOURCE == "push" && $CI_COMMIT_BRANCH == "main"'
+#       when: manual
+#     - if: '$CI_PIPELINE_SOURCE == "push" && $CI_COMMIT_BRANCH =~ /^(development|test)$/'
+#   script:
+#     - apk add --no-cache openssh-client
+#     - install -m 700 -d ~/.ssh
+#     - cp "$OCI_SSH_PRIVATE_KEY" ~/.ssh/id_deploy
+#     - chmod 600 ~/.ssh/id_deploy
+#     - cp "$OCI_SSH_KNOWN_HOSTS" ~/.ssh/known_hosts
+#     - chmod 600 ~/.ssh/known_hosts
+#     - helm package "kubernetes/$CI_COMMIT_BRANCH" --destination /tmp
+#     - scp -i ~/.ssh/id_deploy -o StrictHostKeyChecking=yes /tmp/fieldline-operations-*.tgz "ubuntu@$OCI_HOST:/tmp/fieldline-chart.tgz"
+#     - >-
+#       ssh -i ~/.ssh/id_deploy -o StrictHostKeyChecking=yes "ubuntu@$OCI_HOST"
+#       "helm upgrade --install fieldline-operations /tmp/fieldline-chart.tgz
+#       --namespace '$CI_COMMIT_BRANCH' --create-namespace
+#       --set-string image.repository='$CI_REGISTRY_IMAGE'
+#       --set-string image.tag='$CI_COMMIT_SHA'
+#       --atomic --wait --timeout 5m"
