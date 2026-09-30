@@ -69,3 +69,36 @@ jobs:
           tags: |
             ghcr.io/${{ github.repository}}:${{ github.ref_name }}
             ghcr.io/${{ github.repository}}:${{ github.sha }}
+  deploy:
+    needs: validate
+    if: ${{github.event_name == 'push' && github.ref_name == 'development'}}
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
+      pages: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Install dependencies
+        run: npm ci
+      - name: Angular build
+        run: npm run build -- --base-href=/fieldline-operations/
+      - name: Create SPA fallback
+        run: cp dist/fieldline-operations/browser/index.html dist/fieldline-operations/browser/404.html
+      - name: Configure pages
+        uses: actions/configure-pages@v5
+      - name: Upload pages
+        uses: actions/upload-pages-artifact@v4
+        with:
+          path: dist/fieldline-operations/browser
+      - name: Deploy pages
+        uses: actions/deploy-pages@v4
+        id: deployment
