@@ -43,6 +43,22 @@ unit_tests:
     - npm ci --prefer-offline
     - npm run test:unit
 
+e2e_tests:
+  stage: test
+  image: mcr.microsoft.com/playwright:v1.62.1-noble
+  cache: *node_cache
+  variables:
+    PLAYWRIGHT_BROWSERS_PATH: /ms-playwright
+  script:
+    - npm ci --prefer-offline
+    - npm run test:e2e -- --project=chromium
+  artifacts:
+    when: always
+    paths:
+      - playwright-report/
+      - test-results/
+    expire_in: 14 days
+
 helm_checks:
   stage: test
   image:
@@ -63,6 +79,11 @@ helm_checks:
 
 build_image:
   stage: build
+  needs:
+    - pre_checks
+    - unit_tests
+    - e2e_tests
+    - helm_checks
   image: docker:27-cli
   services:
     - name: docker:27-dind
@@ -82,6 +103,11 @@ build_image:
 
 build_pages:
   stage: build
+  needs:
+    - pre_checks
+    - unit_tests
+    - e2e_tests
+    - helm_checks
   image: node:22-alpine
   cache: *node_cache
   script:

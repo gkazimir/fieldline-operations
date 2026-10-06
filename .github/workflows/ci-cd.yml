@@ -43,10 +43,34 @@ jobs:
         run: |
           helm lint "kubernetes/$CHART_ENV"
           helm template fieldline-operations "kubernetes/$CHART_ENV"
+  e2e:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - name: Install dependencies
+        run: npm ci
+      - name: Install Playwright Chromium
+        run: npx playwright install --with-deps chromium
+      - name: Run Playwright E2E tests
+        run: npm run test:e2e -- --project=chromium
+      - name: Upload Playwright report
+        if: ${{ !cancelled() }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-report
+          path: playwright-report/
+          retention-days: 14
   build-and-publish:
     if: ${{github.event_name == 'push' && contains(fromJSON('["main", "test", "development"]'), github.ref_name)}}
     runs-on: ubuntu-latest
-    needs: validate
+    needs: [validate, e2e]
     permissions:
       contents: read
       packages: write
@@ -70,7 +94,7 @@ jobs:
             ghcr.io/${{ github.repository}}:${{ github.ref_name }}
             ghcr.io/${{ github.repository}}:${{ github.sha }}
   deploy:
-    needs: validate
+    needs: [validate, e2e]
     if: ${{github.event_name == 'push' && github.ref_name == 'development'}}
     runs-on: ubuntu-latest
     permissions:

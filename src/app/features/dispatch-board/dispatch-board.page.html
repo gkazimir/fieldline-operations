@@ -8,6 +8,7 @@
     <div class="toolbar-field">
       <span class="label">Search</span>
       <input
+        data-testid="dispatch-search"
         pInputText
         type="text"
         placeholder="Customer or neighborhood"
@@ -50,7 +51,11 @@
     </header>
 
     @for (job of jobs(); track job.id) {
-      <article class="table-row" [class.unassigned]="job.technicianId === null">
+      <article
+        data-testid="dispatch-job"
+        class="table-row"
+        [class.unassigned]="job.technicianId === null"
+      >
         <div class="cell job">
           <strong>{{ job.customer }}</strong>
           <span>{{ job.serviceType }}</span>
@@ -82,7 +87,9 @@
         </div>
       </article>
     } @empty {
-      <p class="empty-state">No jobs match the current filters.</p>
+      <p data-testid="dispatch-empty-state" class="empty-state">
+        No jobs match the current filters.
+      </p>
     }
   </section>
 
