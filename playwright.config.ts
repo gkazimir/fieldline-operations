@@ -1,3 +1,4 @@
+/// <reference types="node" />
 import { defineConfig, devices } from '@playwright/test';
 
 const loopbackHosts = ['localhost', '127.0.0.1'];
