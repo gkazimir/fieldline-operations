@@ -1,55 +1,52 @@
 :root {
   color-scheme: light;
 
-  --surface-canvas: #f4f7f8;
-  --surface-base: #e9eff1;
-  --surface-elevated: #ffffff;
-  --surface-muted: #f1f5f6;
-  --surface-strong: #dde7ea;
+  /* Aliases for feature SCSS not yet migrated; delete each once its scope is restyled. */
+  --surface-canvas: var(--p-surface-100);
+  --surface-base: var(--p-surface-100);
+  --surface-elevated: var(--p-surface-0);
+  --surface-muted: var(--p-surface-50);
+  --surface-strong: var(--p-surface-200);
+  --text-title: var(--p-surface-950);
+  --text-body: var(--p-text-color);
+  --text-muted: var(--p-text-muted-color);
+  --text-disabled: var(--p-surface-500);
+  --border-subtle: var(--p-surface-200);
+  --border-default: var(--p-surface-300);
+  --border-strong: var(--p-surface-400);
+  --accent: var(--p-primary-500);
+  --accent-strong: var(--p-primary-700);
+  --accent-soft: var(--p-primary-100);
+  --accent-soft-border: var(--p-primary-200);
+  --alert: var(--p-orange-800);
+  --alert-strong: var(--p-orange-800);
+  --alert-soft: var(--p-orange-100);
+  --alert-border: color-mix(in srgb, var(--p-orange-600) 40%, var(--p-surface-0));
+  --ok: var(--p-green-800);
+  --ok-strong: var(--p-green-800);
+  --ok-soft: var(--p-green-100);
+  --danger-strong: var(--p-red-800);
+  --danger-soft: var(--p-red-100);
+  --focus-ring: var(--p-focus-ring-color);
+  --shadow-sm: none;
+  --shadow-md: none;
 
-  --text-title: #0c161f;
-  --text-body: #18232c;
-  --text-muted: #496071;
-  --text-disabled: #71838c;
+  --status-new-bg: var(--p-primary-100);
+  --status-new-fg: var(--p-primary-800);
+  --status-assigned-bg: var(--p-surface-100);
+  --status-assigned-fg: var(--p-surface-700);
+  --status-progress-bg: var(--p-primary-700);
+  --status-progress-fg: var(--p-surface-0);
+  --status-done-bg: var(--p-green-100);
+  --status-done-fg: var(--p-green-800);
+  --status-issue-bg: var(--p-red-100);
+  --status-issue-fg: var(--p-red-800);
+  --status-risk-bg: var(--p-orange-100);
+  --status-risk-fg: var(--p-orange-800);
 
-  --border-subtle: #d5e0e4;
-  --border-default: #c4d3d9;
-  --border-strong: #98afb8;
-
-  --accent-strong: #0f4e63;
-  --accent: #176a80;
-  --accent-soft: #d9ebf1;
-  --accent-soft-border: #9abfcb;
-  --alert-strong: #b36900;
-  --alert: #c57a0a;
-  --alert-soft: #ffeccf;
-  --alert-border: #e5be7a;
-  --ok-strong: #1f6a49;
-  --ok: #287b57;
-  --ok-soft: #e1f2e9;
-  --danger-strong: #a63d40;
-  --danger-soft: #f8e7e7;
-  --focus-ring: #005ecb;
-
-  --status-new-bg: var(--accent-soft);
-  --status-new-fg: var(--accent-strong);
-  --status-assigned-bg: #e6f2f6;
-  --status-assigned-fg: var(--accent);
-  --status-progress-bg: #d8ebf2;
-  --status-progress-fg: #0f5f75;
-  --status-done-bg: var(--ok-soft);
-  --status-done-fg: var(--ok);
-  --status-issue-bg: var(--danger-soft);
-  --status-issue-fg: var(--danger-strong);
-  --status-risk-bg: var(--alert-soft);
-  --status-risk-fg: var(--alert-strong);
-
-  --radius-sm: 6px;
-  --radius-md: 8px;
-  --radius-lg: 12px;
-
-  --shadow-sm: 0 1px 2px rgb(12 34 46 / 0.05);
-  --shadow-md: 0 4px 12px rgb(12 34 46 / 0.08);
+  --radius-sm: 4px;
+  --radius-md: 6px;
+  --radius-lg: 6px;
 
   --space-1: 0.25rem;
   --space-2: 0.5rem;
@@ -57,6 +54,8 @@
   --space-4: 1rem;
   --space-5: 1.25rem;
   --space-6: 1.5rem;
+
+  --font-mono: ui-monospace, 'Cascadia Mono', 'SF Mono', Consolas, 'Liberation Mono', monospace;
 }
 
 * {
@@ -70,12 +69,19 @@ body {
 }
 
 body {
-  font-family: 'Aptos', 'IBM Plex Sans', 'Segoe UI Variable', 'Segoe UI', sans-serif;
-  color: var(--text-body);
-  background: linear-gradient(180deg, var(--surface-canvas) 0%, var(--surface-base) 58%);
+  font-family:
+    'Segoe UI Variable Text',
+    'Segoe UI',
+    system-ui,
+    -apple-system,
+    'Helvetica Neue',
+    sans-serif;
+  font-weight: 400;
+  color: var(--p-text-color);
+  background: var(--p-surface-100);
   line-height: 1.5;
-  font-size: 15px;
-  letter-spacing: 0.005em;
+  font-size: 0.9375rem;
+  letter-spacing: 0;
 }
 
 a {
@@ -86,8 +92,9 @@ h1,
 h2,
 h3,
 h4 {
-  color: var(--text-title);
-  letter-spacing: -0.01em;
+  color: var(--p-surface-950);
+  font-weight: 600;
+  letter-spacing: 0;
 }
 
 p {
@@ -96,108 +103,77 @@ p {
 
 .feature-shell {
   display: grid;
-  gap: var(--space-4);
+  gap: var(--space-6);
 }
 
 .feature-header {
-  padding: var(--space-4) var(--space-5);
-  border: 1px solid var(--border-default);
-  border-top: 2px solid var(--accent-soft-border);
-  border-radius: var(--radius-lg);
-  background: var(--surface-elevated);
-  box-shadow: var(--shadow-sm);
+  padding: 0 0 var(--space-4);
+  border-bottom: 1px solid var(--p-surface-300);
   display: grid;
-  gap: 0.35rem;
+  gap: var(--space-1);
 }
 
 .feature-header h2 {
   margin: 0;
-  font-size: clamp(1.45rem, 1.2rem + 0.72vw, 1.9rem);
-  font-weight: 680;
-  letter-spacing: -0.015em;
+  font-size: 1.75rem;
+  line-height: 1.2;
+  font-weight: 600;
+  letter-spacing: -0.01em;
 }
 
 .feature-header p {
   margin: 0;
-  color: var(--text-muted);
-  font-size: 0.92rem;
+  color: var(--p-text-muted-color);
 }
 
 .feature-header-actions {
   display: flex;
-  gap: var(--space-2);
+  gap: var(--space-3);
   justify-content: flex-end;
   flex-wrap: wrap;
 }
 
 .placeholder {
-  border: 1px dashed var(--border-strong);
+  border: 1px dashed var(--p-surface-400);
   border-radius: var(--radius-md);
   padding: var(--space-4);
-  background: var(--surface-muted);
+  background: var(--p-surface-50);
 }
 
 .placeholder h3 {
-  margin: 0 0 0.35rem;
-  font-size: 1rem;
-  font-weight: 650;
+  margin: 0 0 var(--space-1);
+  font-size: 1.0625rem;
+  font-weight: 600;
 }
 
 .placeholder p {
   margin: 0;
-  color: var(--text-muted);
-  font-size: 0.9rem;
+  color: var(--p-text-muted-color);
+  font-size: 0.875rem;
 }
 
 ::selection {
-  background: var(--accent-soft);
-  color: var(--text-title);
+  background: var(--p-primary-100);
+  color: var(--p-surface-950);
 }
 
-/* PrimeNG theming lives here (not ::ng-deep in component styles) since these
-   components render their internal markup outside the page's own view encapsulation. */
-.p-button {
-  border-radius: 7px;
-  font-weight: 600;
-  min-height: 2rem;
-  padding-inline: 0.72rem;
-}
-
-.p-button.p-button-secondary {
-  background: var(--surface-elevated);
-  color: var(--accent-strong);
-  border: 1px solid var(--border-default);
-}
-
+/* No border token exists on card. */
 .p-card {
-  border: 1px solid var(--border-default);
-  border-radius: var(--radius-md);
-  box-shadow: var(--shadow-sm);
-  background: var(--surface-elevated);
-}
-
-.p-card .p-card-title {
-  font-size: 0.95rem;
-  font-weight: 660;
+  border: 1px solid var(--p-surface-300);
 }
 
 .p-select,
 .p-multiselect {
   width: 100%;
-  border-radius: 7px;
 }
 
 @media (max-width: 640px) {
   body {
-    font-size: 14px;
-  }
-
-  .feature-header {
-    padding: 0.86rem 0.95rem;
+    font-size: 0.875rem;
   }
 
   .feature-header h2 {
-    font-size: clamp(1.3rem, 1.12rem + 0.62vw, 1.55rem);
+    font-size: 1.5rem;
   }
 }
 
