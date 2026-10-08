@@ -3,6 +3,8 @@ import { DashboardMetric, OperationsSnapshot } from '../models/dashboard-metric.
 import { JobStatus, ServiceJob } from '../models/job.model';
 import { Technician } from '../models/technician.model';
 import { ApiService } from './api.service';
+import { jobsSchema } from '../schemas/job.schema';
+import { techniciansSchema } from '../schemas/technician.schema';
 
 export type { JobStatus, ServiceJob, Technician, DashboardMetric, OperationsSnapshot };
 
@@ -18,13 +20,46 @@ export class OpsDataService {
   private readonly techniciansState = signal<readonly Technician[]>([]);
   private readonly jobsState = signal<readonly ServiceJob[]>([]);
 
+  private readonly techniciansError = signal<string | null>(null);
+  private readonly jobsError = signal<string | null>(null);
+
+  public readonly techniciansErrorState = this.techniciansError.asReadonly();
+  public readonly jobsErrorState = this.jobsError.asReadonly();
+
   constructor() {
-    this.api
-      .getCollection<Technician>('mock/technicians.json')
-      .subscribe((technicians) => this.techniciansState.set(technicians));
-    this.api
-      .getCollection<ServiceJob>('mock/jobs.json')
-      .subscribe((jobs) => this.jobsState.set(jobs));
+    this.api.getUnknown('mock/technicians.json').subscribe({
+      next: (technicians) => {
+        const result = techniciansSchema.safeParse(technicians);
+        if (result.success) {
+          this.techniciansState.set(result.data);
+          this.techniciansError.set(null);
+        } else {
+          console.error('Technicians response has an invalid format.', result.error);
+          this.techniciansError.set('Technicians response has an invalid format.');
+        }
+      },
+      error: (err) => {
+        console.error('Failed to load technicians.', err);
+        this.techniciansError.set('Failed to load technicians.');
+      },
+    });
+
+    this.api.getUnknown('mock/jobs.json').subscribe({
+      next: (jobs) => {
+        const result = jobsSchema.safeParse(jobs);
+        if (result.success) {
+          this.jobsState.set(result.data);
+          this.jobsError.set(null);
+        } else {
+          console.error('Jobs response has an invalid format.', result.error);
+          this.jobsError.set('Jobs response has an invalid format.');
+        }
+      },
+      error: (err) => {
+        console.error('Failed to load jobs.', err);
+        this.jobsError.set('Failed to load jobs.');
+      },
+    });
   }
 
   readonly technicians = computed(() => this.techniciansState());

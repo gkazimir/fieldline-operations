@@ -21,4 +21,8 @@ export class ApiService {
   getCollection<T>(path: string): Observable<T[]> {
     return this.http.get<T[]>(`/${path}`);
   }
+
+  getUnknown(path: string): Observable<unknown> {
+    return this.http.get<unknown>(`/${path}`);
+  }
 }
